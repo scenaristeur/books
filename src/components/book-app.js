@@ -20,7 +20,7 @@ import './snack-bar.js';
 import './book-input-decorator.js';
 import './speech-mic.js';
 import './book-home.js';
-//import './spoggy-input/spoggy-input.js';
+
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
@@ -128,7 +128,8 @@ class BookApp extends connect(store)(LitElement) {
 
       book-input-decorator {
         max-width: 460px;
-      /*  transform: translate3d(0, 374px, 0);*/
+      /*  transform: translate3d(0, 374px, 0);
+          transform: translate3d(60%, -50px, 0);*/
           transform: translate3d(0, 0, 0);
       }
 
@@ -232,7 +233,7 @@ class BookApp extends connect(store)(LitElement) {
         <button class="menu-btn" aria-label="Menu" ?hidden="${hideMenuBtn}"
             @click="${() => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
         <a class="back-btn" aria-label="Go back" ?hidden="${!hideMenuBtn}" href="${backHref}">${backIcon}</a>
-        <div main-title><a href="/">${appTitle}</a></div><input>bi</input>
+        <div main-title><a href="/">${appTitle}</a></div>
         <button class="signin-btn" aria-label="Sign In" ?visible="${_authInitialized}"
             @click="${() =>  store.dispatch(_user && _user.imageUrl ? signOut() : signIn())}">
           ${_user && _user.imageUrl ? html`<img src="${_user.imageUrl}">` : accountIcon}
