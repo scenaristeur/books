@@ -10,9 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { LitElement, html } from '@polymer/lit-element';
 
-//import './book-image.js';
-import './spoggy-graph/spoggy-graph.js';
-
+import './book-image.js';
 
 class BookHome extends LitElement {
   render() {
@@ -40,10 +38,10 @@ class BookHome extends LitElement {
           }
         }
       </style>
-<spoggy-graph></spoggy-graph>
-    <!--  <book-image class="books-bg" alt="Books Home" center src="images/books-bg.jpg" placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAAI0lEQVR4AWPw2v7Wfe1Dj7X3/Pd8YPDf+Uqva79x38GQvW8Bu0sOexptskUAAAAASUVORK5CYII="></book-image>-->
 
-      <div class="books-desc">Soggy l'appli la plus intuitive pour partager ses idées et communique avec les machines.</div>
+      <book-image class="books-bg" alt="Books Home" center src="images/books-bg.jpg" placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAAI0lEQVR4AWPw2v7Wfe1Dj7X3/Pd8YPDf+Uqva79x38GQvW8Bu0sOexptskUAAAAASUVORK5CYII="></book-image>
+
+      <div class="books-desc">Search the world's most comprehensive index of full-text books.</div>
     `;
   }
 }

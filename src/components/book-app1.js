@@ -9,8 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
-import  'evejs/dist/eve.min.js';
-import { AppAgent } from './agents/AppAgent.js'
+
 import '@polymer/app-layout/app-scroll-effects/effects/waterfall.js';
 import '@polymer/app-layout/app-header/app-header.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
@@ -20,7 +19,6 @@ import './snack-bar.js';
 import './book-input-decorator.js';
 import './speech-mic.js';
 import './book-home.js';
-//import './spoggy-input/spoggy-input.js';
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
 import { installRouter } from 'pwa-helpers/router.js';
@@ -30,9 +28,6 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { store } from '../store.js';
 import { navigate, updateLocationURL, updateOffline, updateLayout, showSnackbar, updateDrawerState } from '../actions/app.js';
 import { signIn, signOut, fetchUser } from '../actions/auth.js';
-
-
-
 
 class BookApp extends connect(store)(LitElement) {
   render() {
@@ -128,8 +123,7 @@ class BookApp extends connect(store)(LitElement) {
 
       book-input-decorator {
         max-width: 460px;
-      /*  transform: translate3d(0, 374px, 0);*/
-          transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 374px, 0);
       }
 
       book-input-decorator[top] {
@@ -232,7 +226,7 @@ class BookApp extends connect(store)(LitElement) {
         <button class="menu-btn" aria-label="Menu" ?hidden="${hideMenuBtn}"
             @click="${() => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
         <a class="back-btn" aria-label="Go back" ?hidden="${!hideMenuBtn}" href="${backHref}">${backIcon}</a>
-        <div main-title><a href="/">${appTitle}</a></div><input>bi</input>
+        <div main-title><a href="/">${appTitle}</a></div>
         <button class="signin-btn" aria-label="Sign In" ?visible="${_authInitialized}"
             @click="${() =>  store.dispatch(_user && _user.imageUrl ? signOut() : signIn())}">
           ${_user && _user.imageUrl ? html`<img src="${_user.imageUrl}">` : accountIcon}
@@ -244,7 +238,6 @@ class BookApp extends connect(store)(LitElement) {
               @change="${(e) => store.dispatch(updateLocationURL(`/explore?q=${e.target.value}`))}">
           <speech-mic slot="button" continuous interimResults @result="${(e) => this._micResult(e)}"></speech-mic>
         </book-input-decorator>
-        <!--<spoggy-input></spoggy-input>-->
         <h4 class="subtitle" ?hidden="${!hideInput}">${_subTitle}</h4>
       </app-toolbar>
     </app-header>
@@ -312,10 +305,6 @@ class BookApp extends connect(store)(LitElement) {
     this._input = this.shadowRoot.getElementById('input');
     // get authenticated user
     store.dispatch(fetchUser());
-
-    console.log("eve",eve);
-  this.agentApp = new AppAgent('agentApp', this);
-  console.log(this.agentApp);
   }
 
   _stateChanged(state) {

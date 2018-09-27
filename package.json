@@ -20,12 +20,20 @@
   "dependencies": {
     "@polymer/app-layout": "^3.0.0",
     "@polymer/lit-element": "^0.6.1",
-    "lit-html": "^0.11.4",
+    "@polymer/paper-button": "^3.0.1",
+    "@polymer/paper-dialog": "^3.0.1",
+    "@polymer/paper-dialog-behavior": "^3.0.1",
+    "@polymer/paper-dialog-scrollable": "^3.0.1",
+    "@polymer/paper-input": "^3.0.1",
     "@webcomponents/webcomponentsjs": "^2.0.0",
+    "evejs": "^0.5.0",
+    "lit-html": "^0.11.4",
+    "paper-input": "^3.0.2",
     "pwa-helpers": "^0.8.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "vis": "^4.21.0"
   },
   "devDependencies": {
     "axe-core": "^3.0.0",
