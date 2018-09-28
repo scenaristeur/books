@@ -46,3 +46,11 @@ Download the [Google App Engine SDK](https://cloud.google.com/appengine/download
 ```bash
 $ gcloud app deploy server/app.yaml --project <project>
 ```
+
+
+
+
+### #########################################################""
+TODO :
+- [x] catchurl pour recupérer les paramètres et determiner si on a des données a afficher ou si l'on doit se brancher sur un graph
+- [ ]  spoggy-collab pour carte multi-utilisateurs
