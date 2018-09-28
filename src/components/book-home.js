@@ -12,7 +12,7 @@ import { LitElement, html } from '@polymer/lit-element';
 
 //import './book-image.js';
 import './spoggy-graph/spoggy-graph.js';
-import './spoggy-input/spoggy-input.js';
+//import './spoggy-input/spoggy-input.js';
 
 
 class BookHome extends LitElement {
@@ -41,7 +41,7 @@ class BookHome extends LitElement {
       }
     }
     </style>
-    <spoggy-input></spoggy-input>
+  <!--  <spoggy-input></spoggy-input>-->
     <spoggy-graph></spoggy-graph>
     <!--  <book-image class="books-bg" alt="Books Home" center src="images/books-bg.jpg" placeholder="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAAI0lEQVR4AWPw2v7Wfe1Dj7X3/Pd8YPDf+Uqva79x38GQvW8Bu0sOexptskUAAAAASUVORK5CYII="></book-image>-->
 

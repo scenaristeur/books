@@ -40,7 +40,13 @@ InputAgent.prototype.receive = function(from, message) {
 
 
   switch(message.type){
-    case 'inc':
+    case 'processInput':
+    console.log(message.input);
+    this.app._processInput(message.input);
+    break;
+
+
+  /*  case 'inc':
     this.app.value++;
     console.log("inc");
     break;
@@ -117,7 +123,7 @@ InputAgent.prototype.receive = function(from, message) {
     console.log('exportTtl')
     this.exportTtl();
 
-    break;
+    break;*/
 
     default:
     console.log(message);
