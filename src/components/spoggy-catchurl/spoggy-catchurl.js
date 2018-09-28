@@ -17,19 +17,19 @@ Module pour attrapper les parametres d'url :
 import { LitElement, html } from '@polymer/lit-element';
 
 // These are the elements needed by this element.
-import { plusIcon, minusIcon } from './../my-icons.js';
+//import { plusIcon, minusIcon } from './../my-icons.js';
 
 // These are the shared styles needed by this element.
-import { ButtonSharedStyles } from './../button-shared-styles.js';
+//import { ButtonSharedStyles } from './../button-shared-styles.js';
 import  'evejs/dist/eve.min.js';
 import { CatchurlAgent } from './agents/CatchurlAgent.js'
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 class SpoggyCatchurl extends LitElement {
-  _render(props) {
+  render() {
     return html`
-    ${ButtonSharedStyles}
+
     <style>
     span { width: 20px; display: inline-block; text-align: center; font-weight: bold;}
     </style>
@@ -37,16 +37,16 @@ class SpoggyCatchurl extends LitElement {
     <p>
     CATCH URL </br>
     Params are <br>
-    Endpoint : ${props.endpoint}</br>
-    Query : ${props.query}</br>
-    Graph : ${props.graph}</br>
-    Source : ${props.source}</br>
+
     </p>
     <p>test : http://127.0.0.1:8081/?endpoint=http://127.0.0.1:3030&source=http://test.json&graph=plop&query=SELECT * WHERE {?s ?p ?o}</p>
     </div>
     `;
   }
-
+  /*    Endpoint : ${endpoint}</br>
+      Query : ${props.query}</br>
+      Graph : ${props.graph}</br>
+      Source : ${props.source}</br>*/
   static get properties() { return {
     params: Object,
     endpoint: String,
@@ -65,6 +65,7 @@ class SpoggyCatchurl extends LitElement {
     this.agentCatchurl.send('agentApp', {type: 'dispo', name: 'agentCatchurl' });
     console.log("catchurl");
     this.params = this.recupParams();
+    console.log(this.params)
 
     if (this.params.hasOwnProperty("endpoint") && this.params.endpoint != undefined && this.params.endpoint.length > 0){
       this.endpoint = this.params.endpoint;
