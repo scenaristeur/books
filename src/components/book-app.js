@@ -20,7 +20,7 @@ import './snack-bar.js';
 import './book-input-decorator.js';
 import './speech-mic.js';
 import './book-home.js';
-import './spoggy-input/spoggy-input.js';
+//import './spoggy-input/spoggy-input.js';
 
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -31,7 +31,7 @@ import { installMediaQueryWatcher } from 'pwa-helpers/media-query.js';
 import { store } from '../store.js';
 import { navigate, updateLocationURL, updateOffline, updateLayout, showSnackbar, updateDrawerState } from '../actions/app.js';
 import { signIn, signOut, fetchUser } from '../actions/auth.js';
-import { processInput, updateInput } from  '../actions/input.js';
+import { processInput } from  '../actions/input.js';
 
 
 
@@ -247,7 +247,7 @@ class BookApp extends connect(store)(LitElement) {
     @change="${(e) => this._sendInput(`${e.target.value}`)}">
     <speech-mic slot="button" continuous interimResults @result="${(e) => this._micResult(e)}"></speech-mic>
     </book-input-decorator>
-    <spoggy-input></spoggy-input>
+  <!--  <spoggy-input></spoggy-input>-->
     <h4 class="subtitle" ?hidden="${!hideInput}">${_subTitle}</h4>
     </app-toolbar>
     </app-header>
@@ -296,7 +296,8 @@ class BookApp extends connect(store)(LitElement) {
       _authInitialized: { type: Boolean },
       _user: { type: Object },
       _query: { type: String },
-      _bookId: { type: String }
+      _bookId: { type: String },
+      commandHistory : Array,
     }
   }
 
@@ -307,6 +308,7 @@ class BookApp extends connect(store)(LitElement) {
   }
 
   firstUpdated() {
+    this.commandHistory = [];
     installRouter((location) => store.dispatch(navigate(location)));
     installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
     installMediaQueryWatcher(`(min-width: 648px) and (min-height: 648px)`,
@@ -346,11 +348,70 @@ class BookApp extends connect(store)(LitElement) {
 
   _sendInput(i){
     console.log(i)
-  //  this.agentApp.send('agentInput', {type: 'processInput', input: i });
-  var processRet = processInput(i);
-  var updateRet = updateInput(i);
-  console.log(processRet, updateRet)
+    let firstChar = i.charAt(0);
+    if (firstChar == '/'){
+      this._catchCommande(i)
+    }else{
+      var processRet = processInput(i, this.commandHistory);
+      this.shadowRoot.getElementById("input").value = processRet.inputMessage.value;
+      if (processRet.hasOwnProperty('messageCut')){
+        console.log(processRet.messageCut)
+        this.agentApp.send('agentGraph', {type: "catchTriplet", triplet: processRet.messageCut});
+      }  else if (processRet.hasOwnProperty('chatMessage')){
+        this.agentApp.send('agentSocket', {type: "sendMessage", message: processRet.chatMessage});
+      }
+      console.log(processRet)
+    }
   }
+
+
+  _catchCommande(commande)  {
+    console.log("commande",commande)
+    switch(commande) {
+      case "/h":
+      case "/help":
+      case "/aide":
+      console.log(this.$.dialogs)
+      //  this.$.dialogs.$.helpPopUp.toggle();
+      this.agentApp.send('agentDialogs', {type:'toggle', popup: 'helpPopUp'})
+      break;
+      case "/e":
+      case "/export":
+      case "/exportJson":
+      //this.exportJson();
+      this.agentApp.send('agentImportexport', {type: 'exportJson'})
+      break;
+      case "/t":
+      //  this.exportTtl(this.network,this);
+      this.agentApp.send('agentImportexport', {type:'exportTtl'}); // , what: 'network', to: 'agentDialogs', where: 'inputTextToSave'
+      //    this.agentApp.send('agentDialogs', {type:'toggle', popup: 'popupTtl'})
+      break;
+      case "/i":
+      case "/import":
+      case "/importJson":
+      //  importJson(network,app);
+      //this.$.dialogs.$.importPopUp.toggle();
+      this.agentApp.send('agentImportexport', {type: 'toggle', popup:'importPopUp'})
+      //  this.$.dialogs.$.dialogs.openImport(this.network)
+      break;
+      case "/n":
+      console.log("new graph");
+      //  this.newGraph(this.network, this);
+      this.agentApp.send('agentGraph', {type: 'newGraph'})
+      this.agentApp.send('agentSparqlUpdate', {type: "newGraph"});
+      break;
+      case "/b":
+      console.log("connection a la base levelgraph");
+      this.connectBase(this.network,this);
+      break;
+
+      default:
+      console.log("non traite"+ commande);
+      //  return afficheCommandes();
+    }
+  }
+
+
 }
 
 window.customElements.define('book-app', BookApp);

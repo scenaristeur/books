@@ -9,7 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html } from '@polymer/lit-element';
-import { Network, DataSet, Node, Edge, IdType } from 'vis';
+//import { Network, DataSet, Node, Edge, IdType } from 'vis';
+//import { Network, DataSet, Node, IdType } from 'vis';
+import  'vis/dist/vis.js';
 //import '../book-image.js';
 import  'evejs/dist/eve.min.js';
 import { GraphAgent } from './agents/GraphAgent.js'
@@ -362,7 +364,7 @@ class SpoggyGraph extends LitElement {
     this.clearNodePopUp();
     callback(data);
   }
-  
+
   editEdgeWithoutDrag(data, callback) {
     // filling in the popup DOM elements
     this.shadowRoot.getElementById('edge-label').value = data.label || "";

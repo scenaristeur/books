@@ -88,34 +88,7 @@ class SpoggyInput extends LitElement {
 
       default:
 
-      let lastChar = message.slice(-1);
-      let messageCut = message.slice(0,-1).split(" ");
-      let isTriplet = true;
-      //  console.log(messageCut);
 
-      let detectLiteral = "";
-      let messageCutTemp = [];
-      messageCut.forEach(function(part){
-        part = part.trim();
-        //  console.log(part);
-        if (part.startsWith('"')){
-          detectLiteral ="debut";
-          //  console.log(detectLiteral);
-          messageCutTemp.push(part.substr(1));
-        }else if (part.endsWith('"')){
-          detectLiteral = "fin";
-          //console.log(detectLiteral);
-          messageCutTemp.push(messageCutTemp.pop()+" "+part.slice(0,-1));
-        }else if (detectLiteral == "debut"){
-          //  console.log("recupere le dernier et lui ajoute part" )
-          messageCutTemp.push(messageCutTemp.pop()+" "+part)
-        }else {
-          messageCutTemp.push(part);
-        }
-      });
-      if (messageCutTemp.length > 0){
-        messageCut = messageCutTemp;
-      }
 
       switch(lastChar){
         case '.':
@@ -148,35 +121,12 @@ class SpoggyInput extends LitElement {
         }
         break;
         default:
-        console.log("message to chat "+message)
-        //this.sendMessage(message);
-        this.agentInput.send('agentSocket', {type: "sendMessage", message:message});
+
         //  this.catchTriplet(message.slice(0,-1), this.network); // A REMPLACER PAR CATCHTRIPLETS V2
         inputMessage.value = "";
         isTriplet = false;
       }
-      if (isTriplet){
-        let t = {};
-        this.agentInput.send('agentGraph', {type: "catchTriplet", triplet:messageCut});
-        t.s = messageCut.shift();
-        t.p = messageCut.shift();
-        t.o = messageCut.join(" ");
-        if (this.commandHistory.length > 10){
-          this.shift('commandHistory');
-        }
-        //  console.log(messageCut)
-        this.commandHistory = [...this.commandHistory, t];
-        //  console.log(this.commandHistory);
-        /*this.push('commandHistory',t);
-        let triplets = [];
-        triplets.push(t)*/
-        // utiliser addActions
-        //  this.catchTripletsV2(triplets, this.network);
 
-        //      this.catchTriplet(messageCut, this.network);
-        //
-        //        this.agentInput.send('agentSparqlUpdate', {type: "catchTriplet", triplet:messageCut});
-      }
     }
   }
 
