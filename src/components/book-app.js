@@ -21,6 +21,7 @@ import './book-input-decorator.js';
 import './speech-mic.js';
 import './book-home.js';
 import './spoggy-catchurl/spoggy-catchurl.js';
+import './spoggy-socket/spoggy-socket.js';
 
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -251,6 +252,7 @@ class BookApp extends connect(store)(LitElement) {
     <h4 class="subtitle" ?hidden="${!hideInput}">${_subTitle}</h4>
     </app-toolbar>
     <spoggy-catchurl></spoggy-catchurl>
+    <spoggy-socket></spoggy-socket>
     </app-header>
 
     <!-- Drawer content -->

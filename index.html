@@ -130,6 +130,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <!-- Built with love using PWA Starter Kit -->
+
+ <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+   <!--  <script src="js/client.js"></script>-->
+ <!--<script >
+//  const urlSocket = window.location.host; //name+':3000'
+  const urlSocket = window.location.hostname+':8080'; //name+':3000'
+  console.log(urlSocket)
+  const socket = io(urlSocket);
+  console.log(socket);
+</script>-->
+
+
     <script type="module" src="src/components/book-app.js"></script>
   </body>
 </html>
