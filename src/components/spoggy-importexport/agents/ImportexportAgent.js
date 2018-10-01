@@ -40,9 +40,9 @@ ImportexportAgent.prototype.receive = function(from, message) {
 
 
   switch(message.type){
-    case 'inc':
-    this.app.value++;
-    console.log("inc");
+    case 'import':
+    this.app._openImportPopup();
+
     break;
     case 'dec':
     console.log("dec");
@@ -60,7 +60,7 @@ ImportexportAgent.prototype.receive = function(from, message) {
     this.app.exportJson();
     break;
     case 'exportTtl':
-    this.app.exportTtl();
+    this.app._exportTtl(message.ttlData);
     break;
     case 'decortiqueFile':
     this.app.decortiqueFile(message.fichier, message.remplaceNetwork);

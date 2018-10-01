@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 /*
 Module pour attrapper les parametres d'url :
-//http://127.0.0.1:8081/?endpoint=http://127.0.0.1:3030&source=http://test.json&graph=plop&query=SELECT * WHERE {?s ?p ?o}
+//http://127.0.0.1:8081/?endpoint=http://127.0.0.1:3030&dataset=test&query=SELECT * WHERE {?s ?p ?o}&source=http://test.json&graph=plop
 
 */
 
@@ -28,7 +28,7 @@ import { CatchurlAgent } from './agents/CatchurlAgent.js'
 // got from someone else.
 class SpoggyCatchurl extends LitElement {
   render() {
-    const { _endpoint, _query, _graph, _source, _mode, disabled } = this;
+    const { _endpoint, _dataset, _query, _graph, _source, _mode, disabled } = this;
     return html`
 
     <style>
@@ -38,7 +38,7 @@ class SpoggyCatchurl extends LitElement {
     <p>
     CATCH URL </br>
     Params are <br>
-    Endpoint : ${_endpoint}   ou    ${this._endpoint}</br>
+    Endpoint : ${_endpoint}   et  Dataset :  ${this._dataset}</br>
     Query : ${_query}</br>
     Graph : ${_graph}</br>
     Source : ${_source}</br>
@@ -53,6 +53,7 @@ class SpoggyCatchurl extends LitElement {
   static get properties() { return {
     _params: Object,
     _endpoint: String,
+    _dataset: String,
     _query: String,
     _graph: String,
     _source: String,
@@ -70,6 +71,11 @@ class SpoggyCatchurl extends LitElement {
       this._endpoint = this.params.endpoint;
       this._mode = "global";
       console.log('Connexion au endpoint ', this._endpoint);
+    }
+    if (this.params.hasOwnProperty("dataset") && this.params.dataset != undefined && this.params.dataset.length > 0){
+      this._dataset = this.params.dataset;
+
+      console.log('avec le dataset ', this._dataset);
     }
     if (this.params.hasOwnProperty("query") && this.params.query != undefined && this.params.query.length > 0){
       this._query = this.params.query;

@@ -22,6 +22,7 @@ import './speech-mic.js';
 import './book-home.js';
 import './spoggy-catchurl/spoggy-catchurl.js';
 import './spoggy-socket/spoggy-socket.js';
+import './spoggy-importexport/spoggy-importexport.js';
 
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -237,6 +238,7 @@ class BookApp extends connect(store)(LitElement) {
     @click="${() => store.dispatch(updateDrawerState(true))}">${menuIcon}</button>
     <a class="back-btn" aria-label="Go back" ?hidden="${!hideMenuBtn}" href="${backHref}">${backIcon}</a>
     <div main-title><a href="/">${appTitle}</a></div>
+    <div>    <spoggy-socket></spoggy-socket></div>
     <button class="signin-btn" aria-label="Sign In" ?visible="${_authInitialized}"
     @click="${() =>  store.dispatch(_user && _user.imageUrl ? signOut() : signIn())}">
     ${_user && _user.imageUrl ? html`<img src="${_user.imageUrl}">` : accountIcon}
@@ -251,8 +253,8 @@ class BookApp extends connect(store)(LitElement) {
   <!--  <spoggy-input></spoggy-input>-->
     <h4 class="subtitle" ?hidden="${!hideInput}">${_subTitle}</h4>
     </app-toolbar>
-    <spoggy-catchurl></spoggy-catchurl>
-    <spoggy-socket></spoggy-socket>
+
+      <!---->
     </app-header>
 
     <!-- Drawer content -->
@@ -278,6 +280,9 @@ class BookApp extends connect(store)(LitElement) {
 
     <footer>
     <p>Made with &lt;3 by the Spoggy team.</p>
+    <spoggy-catchurl></spoggy-catchurl>
+
+    <spoggy-importexport></spoggy-importexport>
     </footer>
 
     <snack-bar ?active="${_snackbarOpened}">
@@ -353,7 +358,8 @@ class BookApp extends connect(store)(LitElement) {
     console.log(i)
     let firstChar = i.charAt(0);
     if (firstChar == '/'){
-      this._catchCommande(i)
+      this._catchCommande(i);
+      this.shadowRoot.getElementById("input").value = "";
     }else{
       var processRet = processInput(i, this.commandHistory);
       this.shadowRoot.getElementById("input").value = processRet.inputMessage.value;
@@ -374,36 +380,42 @@ class BookApp extends connect(store)(LitElement) {
       case "/h":
       case "/help":
       case "/aide":
+      case "/H":
       console.log(this.$.dialogs)
       //  this.$.dialogs.$.helpPopUp.toggle();
       this.agentApp.send('agentDialogs', {type:'toggle', popup: 'helpPopUp'})
       break;
       case "/e":
+      case "/E":
       case "/export":
       case "/exportJson":
       //this.exportJson();
-      this.agentApp.send('agentImportexport', {type: 'exportJson'})
+      this.agentApp.send('agentGraph', {type: 'exportJson'})
       break;
       case "/t":
+      case "/T":
       //  this.exportTtl(this.network,this);
-      this.agentApp.send('agentImportexport', {type:'exportTtl'}); // , what: 'network', to: 'agentDialogs', where: 'inputTextToSave'
+      this.agentApp.send('agentGraph', {type:'exportTtl'}); // , what: 'network', to: 'agentDialogs', where: 'inputTextToSave'
       //    this.agentApp.send('agentDialogs', {type:'toggle', popup: 'popupTtl'})
       break;
       case "/i":
+      case "/I":
       case "/import":
       case "/importJson":
       //  importJson(network,app);
       //this.$.dialogs.$.importPopUp.toggle();
-      this.agentApp.send('agentImportexport', {type: 'toggle', popup:'importPopUp'})
+      this.agentApp.send('agentImportexport', {type: 'import'})
       //  this.$.dialogs.$.dialogs.openImport(this.network)
       break;
       case "/n":
+      case "/N":
       console.log("new graph");
       //  this.newGraph(this.network, this);
       this.agentApp.send('agentGraph', {type: 'newGraph'})
       this.agentApp.send('agentSparqlUpdate', {type: "newGraph"});
       break;
       case "/b":
+      case "/B":
       console.log("connection a la base levelgraph");
       this.connectBase(this.network,this);
       break;

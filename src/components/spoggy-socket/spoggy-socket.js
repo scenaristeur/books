@@ -9,8 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 /*
-Module pour attrapper les parametres d'url :
-//http://127.0.0.1:8081/?endpoint=http://127.0.0.1:3030&source=http://test.json&graph=plop&query=SELECT * WHERE {?s ?p ?o}
+inspire de https://github.com/Collaborne/iron-socket-io-client/blob/master/iron-socket-io-client.html
 
 */
 
@@ -30,21 +29,21 @@ import { SocketAgent } from './agents/SocketAgent.js'
 class SpoggySocket extends LitElement {
   render() {
     return html`
-
-    <style>
-    span { width: 20px; display: inline-block; text-align: center; font-weight: bold;}
-    </style>
-    <div>
-    <p>
-    SOCKET ${this.status}</br>
-
-    </div>
+  collab:  ${this.status}
     `;
   }
 
   static get properties() { return {
     socket: Object,
-    status : String
+    status : String,
+    /**
+					 * Registered _handlers by message type
+					 * @type {<String, Function>[]}
+					 */
+					 _handlers: {
+						type: Object,
+						value: [],
+					}
   }};
 
   constructor() {
@@ -78,15 +77,15 @@ class SpoggySocket extends LitElement {
   });*/
   //this.socket = io();
   this.socket = io(connectUri)
-    console.log("#################",this.socket,"###############")
+  //  console.log("#################",this.socket,"###############")
   // Parse response messages retrieving 'type'
   this.socket.on('message', message => {
     // Execute all handlers that are registered for this namespace
-    for (let handler of this._handlers) {
+    /*for (let handler of app._handlers) {
       if (message.type.startsWith(handler.messageType)) {
         handler.handler(message);
       }
-    }
+    }*/
   });
   // Register listeners to expose connection status
   this.socket.on('connect', () => this.status = 'connected');
@@ -97,6 +96,24 @@ class SpoggySocket extends LitElement {
   this.socket.on('error', e => {
     console.warn(`WebSocket error: ${JSON.stringify(e)}`);
   });
+
+
+  this.socket.on('endpoint', function (data) {
+    console.log('endpoint', data)
+    //app.agentSocket.send('agentDialogs', {type: "initrooms", rooms: rooms});
+  //  app.agentSocket.send('agentCollaboratif', {type: "initrooms", rooms: rooms});
+  });
+
+
+
+
+
+
+
+
+
+
+
   this.socket.on('updatechat', function (username, data) {
     console.log('update chat '+ username +" - "+ data)
     console.log(app.room)
@@ -125,6 +142,20 @@ class SpoggySocket extends LitElement {
     app.agentSocket.send('agentGraph', {type: "populateVis", data: data});
   });
 }
+
+/**
+			 * Registers a handler for a message type
+			 *
+			 * @param {String} messageType	Type of the message for which a handler should be registered.
+			 * 	This can be a namespace.
+			 * @param {Function} handler	Handler called when a message of a specific type arrives
+			 */
+			registerHandler(messageType, handler) {
+				this._handlers.push({
+					messageType,
+					handler,
+				});
+			}
 
 
 }

@@ -41,6 +41,6 @@ console.log("connexion de "+socket.id)
 console.log(fusekiServer.options.url)
 fusekiServer.datasets().then(function(ds){
   console.log(ds)
-  socket.send()
+  socket.emit('endpoint', {url : fusekiServer.options.url, type: "Fuseki", ds: ds} )
 });
 });
