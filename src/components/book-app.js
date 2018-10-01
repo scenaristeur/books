@@ -23,6 +23,7 @@ import './book-home.js';
 import './spoggy-catchurl/spoggy-catchurl.js';
 import './spoggy-socket/spoggy-socket.js';
 import './spoggy-importexport/spoggy-importexport.js';
+import './spoggy-rdf/spoggy-rdf.js';
 
 
 import { connect } from 'pwa-helpers/connect-mixin.js';
@@ -283,6 +284,7 @@ class BookApp extends connect(store)(LitElement) {
     <spoggy-catchurl></spoggy-catchurl>
 
     <spoggy-importexport></spoggy-importexport>
+    <spoggy-rdf></spoggy-rdf>
     </footer>
 
     <snack-bar ?active="${_snackbarOpened}">

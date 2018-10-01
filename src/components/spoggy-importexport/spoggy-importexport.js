@@ -247,7 +247,7 @@ if(navigator.userAgent.indexOf("Chrome") != -1)
   //downloadLink.onclick = window.URL.revokeObjectURL(downloadLink);
   downloadLink.style.display = "none";
   document.body.appendChild(downloadLink);
-//  console.log(this.$.popupTtl);
+  //  console.log(this.$.popupTtl);
 }
 console.log(downloadLink);
 /*downloadLink.click();*/

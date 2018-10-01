@@ -8,12 +8,12 @@ export function rdf2Xml(data, network){
 
   if (window.DOMParser)
   {
-    parser = new DOMParser();
+    var parser = new DOMParser();
     xmlDoc = parser.parseFromString(data, "text/xml");
   }
   else // Internet Explorer
   {
-    xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+    var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
     xmlDoc.async = false;
     xmlDoc.loadXML(data);
   }
@@ -48,12 +48,12 @@ export function rdf2Xml(data, network){
 
   console.log(triplets);
   //destinataire.triplets=triplets;
-  if(remplaceNetwork.checked){
+  /*if(remplaceNetwork.checked){
     console.log(remplaceNetwork.checked);
     network.body.data.nodes.clear();
     network.body.data.edges.clear();
     console.log("clear");
-
+}*/
     var nodes =[];
     var edges = [];
     triplets.forEach(function(t){
@@ -139,7 +139,7 @@ export function rdf2Xml(data, network){
 
     //  network.body.data.nodes.add(nodes); // clear() ne semble pas fonctionner, à revoir
     //  network.body.data.edges.add(edges);
-    console.log(network);
+    /*console.log(network);
   }else{
 
     try{
@@ -148,8 +148,8 @@ export function rdf2Xml(data, network){
     }
     catch(e){
       console.log(e);
-    }
-  }
+    }*/
+//  }
   console.log(network);
 
 
@@ -476,7 +476,7 @@ export function addNodeIfNotExist(network, data){
     console.log(existNode);
     if (existNode.length == 0){
       console.log("n'existe pas")
-    network.body.data.nodes.add(data);
+      network.body.data.nodes.add(data);
     }else{
       console.log("existe")
       delete data.x;
@@ -615,12 +615,12 @@ export function parseObjectProperty(data, triplets){
   var laClasse=data.nodeName;
 
   if (propertyUri.indexOf("#")>0){
-    sujetPrefix=propertyUri.split("#")[0];
-    sujet=propertyUri.split("#")[1];
+    var sujetPrefix=propertyUri.split("#")[0];
+    var sujet=propertyUri.split("#")[1];
   }
   if (laClasse.indexOf(":")>0){
-    objetPrefix=laClasse.split(":")[0];
-    objet=laClasse.split(":")[1];
+    var objetPrefix=laClasse.split(":")[0];
+    var objet=laClasse.split(":")[1];
   }
 
   if (data.childNodes.length>0){
@@ -708,7 +708,7 @@ export function parseRdfOther(data, triplets){
       if (item.value.trim() !="" && (item.name == "rdf:about" || item.name == "rdf:resource")){
         var t1 = {sujet: item.value, propriete: "rdf:type", objet: data.nodeName};
         triplets.push(t1);
-/*
+        /*
         var t2 = {sujet: data.nodeName, propriete: item.name, objet: item.value};
         triplets.push(t2);*/
 
@@ -724,13 +724,13 @@ export function parseRdfOther(data, triplets){
   if (data.childNodes.length > 0){
     console.log("CHILDS :");
     data.childNodes.forEach(function(c) {
-    //  if(c.nodeValue!= undefined && c.nodeValue.trim().length>0){
-        console.log(data.nodeName);
-        console.log(c);
-        console.log("########################## "+data.nodeName +" -> "+ c.nodeName+ " -> "+c.nodeValue );
-        var triplet = {sujet: data.nodeName, propriete: c.nodeName, objet: c.nodeValue};
-        triplets.push(triplet);
-    //  }
+      //  if(c.nodeValue!= undefined && c.nodeValue.trim().length>0){
+      console.log(data.nodeName);
+      console.log(c);
+      console.log("########################## "+data.nodeName +" -> "+ c.nodeName+ " -> "+c.nodeValue );
+      var triplet = {sujet: data.nodeName, propriete: c.nodeName, objet: c.nodeValue};
+      triplets.push(triplet);
+      //  }
 
 
 
