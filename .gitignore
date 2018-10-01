@@ -1,5 +1,8 @@
 build/
 node_modules/
+#Fuseki local
+fuseki/
+run/
 test/integration/screenshots-current
 yarn.lock
 .DS_Store
