@@ -24,9 +24,9 @@ import 'spoggy-graph/spoggy-graph';
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
-class GraphContainer extends LitElement {
+class GraphSolo extends LitElement {
   render() {
-    const { source ,jsonData} = this;
+
     return html`
     ${ButtonSharedStyles}
     <style>
@@ -39,23 +39,19 @@ class GraphContainer extends LitElement {
     handle-as="json"
     debounce-duration="300">
     </iron-ajax>
-    <spoggy-graph id="jsongraph" name="jsongraph" data="${jsonData}">Chargement...</spoggy-graph>
+    <spoggy-graph id="jsongraph" name="jsongraph" data="${this.jsonData}">Chargement...</spoggy-graph>
 
 
     <h2>Chargement d'un fichier source au format vis / spoggy (json)</h2>
-    <table>
-    <tr>
-    <td>
+
     <paper-input
     id="inputJson"
     label="Fichier source au format vis / spoggy (json) :"
-    value=${source}>
+    value=${this.source}>
     </paper-input>
-    </td>
-    <td>
-    <paper-button raised @click="${(e) =>  this._load_json(e)}">Charger</paper-button>
-    </tr>
-    </table>
+
+    <paper-button raised @click="${() =>  this._load_json()}">Charger</paper-button>
+
 
 
 
@@ -69,19 +65,29 @@ class GraphContainer extends LitElement {
 
   constructor() {
     super();
+
   }
 
 
   firstUpdated(){
-    this.source = "https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Spoggy_init2.json";
     this._ajax = this.shadowRoot.getElementById('request');
     this._inputJson = this.shadowRoot.getElementById('inputJson');
+      console.log(this.source)
+    if (this.source == "undefined"){
+      this.source = "https://raw.githubusercontent.com/scenaristeur/heroku-spoggy/master/public/exemple_files/Spoggy_init2.json";
+    }else{
+      this._inputJson.value = this.source;
+      this._load_json();
+    }
+
   }
 
-  _load_json(e){
+  _load_json(){
     this._ajax.url = this._inputJson.value;
     var app = this;
     let request = this._ajax.generateRequest();
+    console.log("run");
+
     request.completes.then(function(request) {
       // succesful request, argument is iron-request element
       var rep = request.response;
@@ -108,4 +114,4 @@ _handleErrorResponse(data){
 
 }
 
-window.customElements.define('graph-container', GraphContainer);
+window.customElements.define('graph-solo', GraphSolo);

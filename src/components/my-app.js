@@ -216,7 +216,7 @@ class MyApp extends connect(store)(LitElement) {
 
     <!-- Main content -->
     <main role="main" class="main-content">
-    <spoggy-solo class="page" ?active="${this._page === 'solo'}"></spoggy-solo>
+    <spoggy-solo class="page" ?active="${this._page === 'solo'}" source="${this.params.source}"></spoggy-solo>
     <spoggy-collaboratif class="page" ?active="${this._page === 'collaboratif'}"></spoggy-collaboratif>
     <spoggy-global class="page" ?active="${this._page === 'global'}"></spoggy-global>
 
@@ -241,7 +241,8 @@ class MyApp extends connect(store)(LitElement) {
       _page: { type: String },
       _drawerOpened: { type: Boolean },
       _snackbarOpened: { type: Boolean },
-      _offline: { type: Boolean }
+      _offline: { type: Boolean },
+      params: {type: Object}
     }
   }
 
@@ -250,42 +251,53 @@ class MyApp extends connect(store)(LitElement) {
     // To force all event listeners for gestures to be passive.
     // See https://www.polymer-project.org/3.0/docs/devguide/settings#setting-passive-touch-gestures
     setPassiveTouchGestures(true);
+    this.params = {};
+
   }
 
   firstUpdated() {
-    installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
-    installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
-    installMediaQueryWatcher(`(min-width: 460px)`,
-    () => store.dispatch(updateDrawerState(false)));
-    var params = getParams();
-    console.log(params)
-  }
+    this.params = getParams();
+    console.log(this.params)
+    /*if(params.page!= undefined && location.pathname != "/"+params.page){
+    location.pathname = params.page;
+  }*/
+  installRouter((location) => store.dispatch(navigate(decodeURIComponent(location.pathname))));
 
-  updated(changedProps) {
-    if (changedProps.has('_page')) {
-      const pageTitle = this.appTitle + ' - ' + this._page;
-      updateMetadata({
-        title: pageTitle,
-        description: pageTitle
-        // This object also takes an image property, that points to an img src.
-      });
-    }
-  }
+  installOfflineWatcher((offline) => store.dispatch(updateOffline(offline)));
+  installMediaQueryWatcher(`(min-width: 460px)`,
+  () => store.dispatch(updateDrawerState(false)));
+  /*if (this.params.hasOwnProperty("source") && this.params.source != undefined && this.params.source.length > 0){
+  this._source  = this.params.source;
+  this._mode = "solo";
+  console.log('Import & Chargement du fichier source', this._source);
+}*/
+}
 
-  _menuButtonClicked() {
-    store.dispatch(updateDrawerState(true));
+updated(changedProps) {
+  if (changedProps.has('_page')) {
+    const pageTitle = this.appTitle + ' - ' + this._page;
+    updateMetadata({
+      title: pageTitle,
+      description: pageTitle
+      // This object also takes an image property, that points to an img src.
+    });
   }
+}
 
-  _drawerOpenedChanged(e) {
-    store.dispatch(updateDrawerState(e.target.opened));
-  }
+_menuButtonClicked() {
+  store.dispatch(updateDrawerState(true));
+}
 
-  stateChanged(state) {
-    this._page = state.app.page;
-    this._offline = state.app.offline;
-    this._snackbarOpened = state.app.snackbarOpened;
-    this._drawerOpened = state.app.drawerOpened;
-  }
+_drawerOpenedChanged(e) {
+  store.dispatch(updateDrawerState(e.target.opened));
+}
+
+stateChanged(state) {
+  this._page = state.app.page;
+  this._offline = state.app.offline;
+  this._snackbarOpened = state.app.snackbarOpened;
+  this._drawerOpened = state.app.drawerOpened;
+}
 }
 
 window.customElements.define('my-app', MyApp);

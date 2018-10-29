@@ -13,7 +13,7 @@ import { PageViewElement } from './page-view-element.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
-import './graph-container.js';
+import './graph-solo.js';
 
 class SpoggySolo extends PageViewElement {
   render() {
@@ -21,7 +21,7 @@ class SpoggySolo extends PageViewElement {
     ${SharedStyles}
 
     <section>
-    <graph-container>Chargement...</graph-container>
+    <graph-solo source="${this.source}">Chargement...</graph-solo>
     </section>
 
     <section>
@@ -38,6 +38,12 @@ class SpoggySolo extends PageViewElement {
     <p>Vestibulum at est ex. Aenean id ligula id nibh dictum laoreet. Etiam non semper erat. Pellentesque eu justo rhoncus diam vulputate facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat metus ex, vel fringilla massa tincidunt sit amet. Nunc facilisis bibendum tristique. Mauris commodo, dolor vitae dapibus fermentum, odio nibh viverra lorem, eu cursus diam turpis et sapien. Nunc suscipit tortor a ligula tincidunt, id hendrerit tellus sollicitudin.</p>
     </section>
     `;
+  }
+
+  static get properties() {
+    return {
+      source: { type: String }
+    }
   }
 }
 
