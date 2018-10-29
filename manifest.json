@@ -1,7 +1,7 @@
 {
-  "name": "Books",
-  "short_name": "Books",
-  "description": "Google Books PWA",
+  "name": "My App",
+  "short_name": "My App",
+  "description": "My App description",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#3f51b5",

@@ -12,11 +12,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <title>My app</title>
     <meta name="generator" content="PWA Starter Kit">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-
-    <title>Spoggy</title>
-    <meta name="description" content="l'appli la plus intuitive pour partager ses idées et communique avec les machines.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My App description">
 
     <!--
       The `<base>` tag below is present to support two advanced deployment options:
@@ -38,12 +37,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Books">
+    <meta name="application-name" content="My App">
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Books">
+    <meta name="apple-mobile-web-app-title" content="My App">
 
     <!-- Homescreen icons -->
     <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
@@ -61,13 +60,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@username">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="books-app">
+    <meta property="og:site_name" content="my-app">
     <meta property="og:image" content="images/manifest/icon-144x144.png" />
 
-    <link rel="preconnect" href="https://apis.google.com">
-    <link rel="preconnect" href="https://accounts.google.com">
-    <link rel="preconnect" href="https://ssl.gstatic.com">
-
+    <!-- Performance tip: hint to the browser to start the handshake for the fonts site -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <script>
       // Load and register pre-caching Service Worker
       if ('serviceWorker' in navigator) {
@@ -81,69 +78,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
       // https://github.com/reactjs/redux/issues/2907
       window.process = { env: { NODE_ENV: 'production' } };
-
-      // Subset of fetch polyfill for IE11 (supports GET requests for JSON only).
-      window.fetch = window.fetch || function(url) {
-        return new Promise(function(resolve, reject) {
-          var xhr = new XMLHttpRequest();
-          xhr.onload = function() {
-            resolve({
-              json: function() {
-                return Promise.resolve(JSON.parse(xhr.responseText));
-              }
-            });
-          };
-          xhr.open('GET', url);
-          xhr.send();
-        })
-      }
     </script>
 
     <!-- Add any global styles for body, document, etc. -->
     <style>
+      @font-face {
+        font-family: 'Pacifico';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Pacifico Regular'), local('Pacifico-Regular'), url(https://fonts.gstatic.com/s/pacifico/v12/Q_Z9mv4hySLTMoMjnk_rCXYhjbSpvc47ee6xR_80Hnw.woff2) format('woff2');
+        /* THe browser draws the text immediately in the fallback font if the font
+           isn't loaded, then swaps it with the webfont when it eventually loads
+           See: https://developers.google.com/web/updates/2016/02/font-display
+        */
+        font-display: swap;
+      }
       body {
         margin: 0;
-        font-family: 'Roboto', 'Noto', sans-serif;
+        /* This is a font-stack that tries to use the system-default sans-serifs first */
+        font-family: Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
         line-height: 1.5;
         min-height: 100vh;
-        background-color: #fafafa;
         -webkit-font-smoothing: antialiased;
-      }
-      book-app[unresolved] {
-        display: block;
-        min-height: 101vh;
-        line-height: 66px;
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-        letter-spacing: 0.1em;
-        padding: 0 16px;
-        overflow: visible;
       }
     </style>
   </head>
   <body>
-    <book-app appTitle="SPOGGY" unresolved>SPOGGY</book-app>
+    <my-app appTitle="my app"></my-app>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <!-- Built with love using PWA Starter Kit -->
-
- <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
- <!--<script src="src/components/spoggy-rdf/lib/rdf-ext-all-latest.min.js"></script>-->
-  <!--<script src="node_modules/rdf-ext/index.js"></script>-->
-   <!--  <script src="js/client.js"></script>-->
- <!--<script >
-//  const urlSocket = window.location.host; //name+':3000'
-  const urlSocket = window.location.hostname+':8080'; //name+':3000'
-  console.log(urlSocket)
-  const socket = io(urlSocket);
-  console.log(socket);
-</script>-->
-
-
-    <script type="module" src="src/components/book-app.js"></script>
+    <script type="module" src="src/components/my-app.js" crossorigin></script>
   </body>
 </html>
