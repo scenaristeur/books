@@ -21,6 +21,11 @@ import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-button/paper-button.js';
 import 'spoggy-graph/spoggy-graph';
 
+
+import {
+  sparqlToVis
+} from '../actions/vis_converter.js'
+
 // This is a reusable element. It is not connected to the store. You can
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
@@ -39,7 +44,11 @@ class GraphSolo extends LitElement {
     handle-as="json"
     debounce-duration="300">
     </iron-ajax>
-    <spoggy-graph id="jsongraph" name="jsongraph" data="${this.jsonData}">Chargement...</spoggy-graph>
+    <spoggy-graph
+    id="jsongraph"
+    name="jsongraph"
+    data="${this.jsonData}"
+    >Chargement...</spoggy-graph>
 
 
     <h2>Chargement d'un fichier source au format vis / spoggy (json)</h2>
@@ -102,8 +111,8 @@ class GraphSolo extends LitElement {
     }
 
     if (this.endpoint == "undefined" ){
-      this.endpoint = "http://127.0.0.1:3030/ds/query";
-      this.query = "SELECT ?subject ?predicate ?objectWHERE {?subject ?predicate ?object}LIMIT 25";
+      this.endpoint = "http://127.0.0.1:3030/bidule/query";
+      this.query = "SELECT ?subject ?predicate ?object WHERE {?subject ?predicate ?object}LIMIT 25";
     }else{
       this._inputEndpoint.value = this.endpoint;
       this._inputQuery.value = this.query;
@@ -146,36 +155,43 @@ _handleErrorResponse(data){
 _load_sparql(){
   this._ajax.url = this._inputEndpoint.value;
   /*var output = {
-    value: 'json',
-    notify: true
-  };*/
-  var options = {};
-  options.output = "json";
-  options.query = this._inputQuery.value;
+  value: 'json',
+  notify: true
+};*/
+var options = {};
+options.output = "json";
+options.query = this._inputQuery.value;
 
-  this._ajax.params = options;
-  var app = this;
-  let request = this._ajax.generateRequest();
-  console.log("run sparql", this._ajax);
+this._ajax.params = options;
+var app = this;
+let request = this._ajax.generateRequest();
+console.log("run sparql", this._ajax);
 
-  request.completes.then(function(request) {
-    // succesful request, argument is iron-request element
-    var rep = request.response;
-    //  console.log(rep);
-    app._handleResponseSparql(rep);
-  }, function(rejected) {
-    // failed request, argument is an object
-    let req = rejected.request;
-    let error = rejected.error;
-    console.log("error", error);
-    app._handleErrorResponseSparql(rejected)
-  }
+request.completes.then(function(request) {
+  // succesful request, argument is iron-request element
+  var rep = request.response;
+  //  console.log(rep);
+  app._handleResponseSparql(rep);
+}, function(rejected) {
+  // failed request, argument is an object
+  let req = rejected.request;
+  let error = rejected.error;
+  console.log("error", error);
+  app._handleErrorResponseSparql(rejected)
+}
 )
 }
 
 _handleResponseSparql(data){
   console.log(data);
-//  this.jsonData = JSON.stringify(data);
+  let vars=data.head.vars;
+  let results=data.results.bindings;
+  console.log(vars)
+  console.log(results)
+  var result = sparqlToVis(results);
+  console.log("RESULT",result);
+  this.jsonData = JSON.stringify(result);
+
 }
 
 _handleErrorResponseSparql(data){
