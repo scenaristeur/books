@@ -20,14 +20,9 @@ class SpoggySolo extends PageViewElement {
     return html`
     ${SharedStyles}
 
-    source="${this.source}"
-    endpoint="${this.endpoint}"
-    query="${this.query}"
     <section>
     <graph-solo
-    source="${this.source}"
-    endpoint="${this.endpoint}"
-    query="${this.query}">
+    source="${this.source}">
     Chargement...
     </graph-solo>
     </section>
@@ -50,9 +45,7 @@ class SpoggySolo extends PageViewElement {
 
   static get properties() {
     return {
-      source: { type: String },
-      endpoint: { type: String },
-      query: { type: String }
+      source: { type: String }
     }
   }
 }

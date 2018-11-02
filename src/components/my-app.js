@@ -221,12 +221,15 @@ class MyApp extends connect(store)(LitElement) {
     <spoggy-solo
     class="page"
     ?active="${this._page === 'solo'}"
-    source="${this.params.source}"
-    endpoint="${this.params.endpoint}"
-    query="${this.params.query}">
+    source="${this.params.source}">
     </spoggy-solo>
     <spoggy-collaboratif class="page" ?active="${this._page === 'collaboratif'}"></spoggy-collaboratif>
-    <spoggy-global class="page" ?active="${this._page === 'global'}"></spoggy-global>
+    <spoggy-global
+    class="page"
+     ?active="${this._page === 'global'}"
+         endpoint="${this.params.endpoint}"
+        query="${this.params.query}"
+        ></spoggy-global>
 
     <my-view1 class="page" ?active="${this._page === 'view1'}"></my-view1>
     <my-view2 class="page" ?active="${this._page === 'view2'}"></my-view2>

@@ -13,11 +13,22 @@ import { PageViewElement } from './page-view-element.js';
 
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
+import './graph-global.js';
 
 class SpoggyGlobal extends PageViewElement {
   render() {
     return html`
       ${SharedStyles}
+
+      <section>
+      <graph-global
+      source="${this.source}"
+      endpoint="${this.endpoint}"
+      query="${this.query}">
+      Chargement...
+      </graph-global>
+      </section>
+
       <section>
         <h2>SpoggyGlobal</h2>
         <p>This is a text-only page.</p>
@@ -31,6 +42,14 @@ class SpoggyGlobal extends PageViewElement {
         <p>Vestibulum at est ex. Aenean id ligula id nibh dictum laoreet. Etiam non semper erat. Pellentesque eu justo rhoncus diam vulputate facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam feugiat metus ex, vel fringilla massa tincidunt sit amet. Nunc facilisis bibendum tristique. Mauris commodo, dolor vitae dapibus fermentum, odio nibh viverra lorem, eu cursus diam turpis et sapien. Nunc suscipit tortor a ligula tincidunt, id hendrerit tellus sollicitudin.</p>
       </section>
     `;
+  }
+
+  static get properties() {
+    return {
+      source: { type: String },
+      endpoint: { type: String },
+      query: { type: String }
+    }
   }
 }
 
