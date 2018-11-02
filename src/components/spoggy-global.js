@@ -22,9 +22,10 @@ class SpoggyGlobal extends PageViewElement {
 
       <section>
       <graph-global
-      source="${this.source}"
+      endpointType="${this.endpointType}"
       endpoint="${this.endpoint}"
-      query="${this.query}">
+      query="${this.query}"
+      dataset="${this.dataset}">
       Chargement...
       </graph-global>
       </section>
@@ -46,9 +47,10 @@ class SpoggyGlobal extends PageViewElement {
 
   static get properties() {
     return {
-      source: { type: String },
+      endpointType: { type: String },
       endpoint: { type: String },
-      query: { type: String }
+      query: { type: String },
+      dataset : {type: String}
     }
   }
 }
